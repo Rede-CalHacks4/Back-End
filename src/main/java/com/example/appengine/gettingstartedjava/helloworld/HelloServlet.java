@@ -1,38 +1,42 @@
-/**
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.appengine.gettingstartedjava.helloworld;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.util.Map;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// [START example]
+import org.apache.http.protocol.HTTP;
+import org.json.JSONObject;
+
+
 @SuppressWarnings("serial")
 @WebServlet(name = "helloworld", value = "/" )
 public class HelloServlet extends HttpServlet {
 
   @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    PrintWriter out = resp.getWriter();
-    out.println("Hello, world - Flex Servlet");
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+      // todo encoding/decoding?
+      String queryText = request.getParameter("text");
+      String queryLang = request.getParameter("lang");
+      if (queryText == null || queryLang == null)
+          return;
+      Map<String, String> resultTranslations = TranslationHandler.translateAll(queryText, queryLang);
+      System.out.print(resultTranslations);
+      System.out.println("----------------");
+      JSONObject responseObject = new JSONObject(resultTranslations);
+      System.out.println(responseObject.toString());
+      System.out.println("----------------");
+
+      //Object o =
+      responseObject.write(response.getWriter()); // TODO error checking
+              //Ur
+      //response.getWriter().write(URLEncoder.encode(responseObject.toString(), HTTP.UTF_8)); // TODO error checking
+      //response.getWriter().write(URLEncoder.encode(responseObject.toString(), "GBK"));
+      //responseObject.
   }
 }
-// [END example]
+
