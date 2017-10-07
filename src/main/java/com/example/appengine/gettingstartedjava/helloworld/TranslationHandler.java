@@ -25,7 +25,7 @@ class TranslationHandler {
         Map<String, String> result = new HashMap<>();
         final Translate translate = TranslateOptions.getDefaultInstance().getService();
         if (language.equalsIgnoreCase("auto")) {
-            language = translate.detect(query).getLanguage(); // TODO make sure this is language code
+            language = translate.detect(query).getLanguage();
         }
 
         result.put(language, query);
@@ -33,8 +33,6 @@ class TranslationHandler {
         for (Language key : languages) {
             if (key.getCode().equalsIgnoreCase(language))
                 continue;
-//            if (!key.getCode().equalsIgnoreCase("ja"))
-//                continue;
             Translation translation = translate.translate(query,
                                         TranslateOption.sourceLanguage(language),
                                         TranslateOption.targetLanguage(key.getCode()));
@@ -44,8 +42,5 @@ class TranslationHandler {
         return result;
     }
 
-
-    // get list of supported languages, translate each one, then return map of <langCode, translation>
-    // refactor then deploy
     // if time, implement caching to reduce API workload (Mongo, MemSQL?)
 }
