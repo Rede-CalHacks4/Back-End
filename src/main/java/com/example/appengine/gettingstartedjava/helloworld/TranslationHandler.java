@@ -26,6 +26,7 @@ class TranslationHandler {
         final Translate translate = TranslateOptions.getDefaultInstance().getService();
         if (language.equalsIgnoreCase("auto")) {
             language = translate.detect(query).getLanguage();
+            result.put("detected_language", language);
         }
 
         result.put(language, query);
@@ -41,6 +42,4 @@ class TranslationHandler {
 
         return result;
     }
-
-    // if time, implement caching to reduce API workload (Mongo, MemSQL?)
 }

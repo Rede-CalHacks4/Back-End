@@ -12,8 +12,8 @@ import org.json.JSONObject;
 
 
 @SuppressWarnings("serial")
-@WebServlet(name = "helloworld", value = "/" )
-public class HelloServlet extends HttpServlet {
+@WebServlet(name = "translation", value = "/" )
+public class BulkTranslationServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
